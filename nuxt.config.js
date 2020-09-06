@@ -102,7 +102,7 @@ export default {
       cacheNames: {
         //? prefix-runtime-suffix 순서
         prefix: "my-minhyup-app",
-        suffix: "v2",
+        suffix: "v4",
         precache: "custom-precache",
         runtime: "custom-runtime"
       },

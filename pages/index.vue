@@ -25,7 +25,9 @@
         <nuxt-link to="/about">About page</nuxt-link>
         <nuxt-link to="/login">login page</nuxt-link>
         <nuxt-link to="/test">test page</nuxt-link>
+        <nuxt-link to="/minhyup">minhyup page</nuxt-link>
 
+        <span> by min hyup!! </span>
         <span> by min hyup!! </span>
       </div>
 
