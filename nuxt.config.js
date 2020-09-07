@@ -102,7 +102,7 @@ export default {
       cacheNames: {
         //? prefix-runtime-suffix 순서
         prefix: "my-minhyup-app",
-        suffix: "v4",
+        suffix: "v2",
         precache: "custom-precache",
         runtime: "custom-runtime"
       },
@@ -113,7 +113,7 @@ export default {
       //? activate 되자마자 존재하는 클라이언트를 컨트롤 시작 여부
       // clientsClaim: true,
       //? 서비스워커 waiting 단계에서 스킵 여부
-      // skipWaiting: true,
+      skipWaiting: true,
       //? 워크박스를 통해 오프라인 GA 활성화
       // offlineAnalytics: false,
       //?
@@ -145,11 +145,23 @@ export default {
       //? runtimeCaching- 캐싱하기 위한 전략,  다른 origin에 요청들을 캐싱하는데 유용하다.
       //? https://developers.google.com/web/tools/workbox/modules/workbox-strategies
       runtimeCaching: [
+        // TODO: Test Case 1
         {
           urlPattern: "/*",
           handler: "networkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
           method: "GET"
         }
+        // TODO: Test Case 2
+        // {
+        //   urlPattern: "/*",
+        //   strategyOptions: {
+        //     cacheName: "minhyup_v2",
+        //     cacheExpiration: {
+        //       maxEntries: 10,
+        //       maxAgeSeconds: 300
+        //     }
+        //   }
+        // }
         // TODO:Adding custom runtimeCaching itmes(For CDN)
         // {
         //   // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')

@@ -26,6 +26,8 @@
         <nuxt-link to="/login">login page</nuxt-link>
         <nuxt-link to="/test">test page</nuxt-link>
         <nuxt-link to="/minhyup">minhyup page</nuxt-link>
+        <a href @click.prevent="linkPage">프로그래밍 방식 링크</a>
+        <!-- <a href="/test2">test2</a> -->
 
         <span> by min hyup!! </span>
         <span> by min hyup!! </span>
@@ -42,6 +44,11 @@ export default {
     return {
       title: `head11111 = ${this.title}`
     };
+  },
+  methods: {
+    linkPage() {
+      this.$router.push(`/test3`);
+    }
   },
   asyncData() {
     console.log("async Data");

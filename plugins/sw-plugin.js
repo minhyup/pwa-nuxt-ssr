@@ -19,3 +19,19 @@ if ("serviceWorker" in navigator) {
 //   console.log("deferredPrompt", deferredPrompt);
 //   alert("beforeinstallprompt!!!!");
 // });
+
+if (process.client) {
+  console.log("sw-plugin 입니다.");
+  const cacheName = `my-minhyup-app-custom-runtime-v2`;
+  caches.keys().then(keyList => {
+    return Promise.all(
+      keyList.map(key => {
+        console.log(key);
+        console.log(cacheName);
+        if (key !== cacheName) {
+          return caches.delete(key);
+        }
+      })
+    );
+  });
+}
