@@ -2,6 +2,16 @@
   <div class="container">
     <div>
       <Logo />
+      <global-component>
+        <h1>칠드런입니다!</h1>
+      </global-component>
+      <!-- <TodoItem /> -->
+      <lpp-button size="large" @click="test">버튼 테스트</lpp-button>
+      <lpp-button size="medium">버튼 테스트</lpp-button>
+      <lpp-button size="small">버튼 테스트</lpp-button>
+      <hr />
+      <lpp-button size="large" shape="round">버튼 테스트</lpp-button>
+      <lpp-button size="large" style="color: red; font-size:20px;">버튼 테스트</lpp-button>
       <h1 class="title">
         NUXT로 PWA, SSR 테스트중.
       </h1>
@@ -48,6 +58,9 @@ export default {
   methods: {
     linkPage() {
       this.$router.push(`/test3`);
+    },
+    test(){
+      alert('누르셨습니까????');
     }
   },
   asyncData() {
@@ -57,6 +70,7 @@ export default {
     };
   },
   async mounted() {
+    console.log("mounted!!");
     let deferredPrompt;
     const addBtn = document.querySelector(".add-button");
     addBtn.style.display = "none";

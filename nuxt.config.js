@@ -21,10 +21,15 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        content: process.env.npm_package_description || "",
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    script: [
+      {
+        src: "https://ds.hanwhalife.io/pet.js",
+      },
+    ],
   },
   /*
    ** Global CSS
@@ -37,8 +42,12 @@ export default {
   plugins: [
     {
       src: "@/plugins/sw-plugin.js",
-      ssr: false
-    }
+      ssr: false,
+    },
+    {
+      src: "@/plugins/user-element.js",
+      ssr: false,
+    },
   ],
   /*
    ** Auto import components
@@ -55,7 +64,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
   ],
   /*
    ** Axios module configuration
@@ -72,7 +81,7 @@ export default {
       name: "My minhyup",
       short_name: "MinHyupNuxtPwa",
       start_url: "/?utm_source=homescreen",
-      display: "standalone"
+      display: "standalone",
       // prefer_related_applications: true,
       // related_applications: [
       //   {
@@ -104,7 +113,7 @@ export default {
         prefix: "my-minhyup-app",
         suffix: "v2",
         precache: "custom-precache",
-        runtime: "custom-runtime"
+        runtime: "custom-runtime",
       },
 
       //! Config
@@ -122,11 +131,11 @@ export default {
       //! Precache - 서비스워커가 인스톨되고 있을 때 캐시스토리지에 파일 세트를 저장할 수 있는 기능
       //? 서비스 워커가 등록되고 있을 때, 캐시할 파일세트
       preCaching: ["icon.png", "dog.jpg"],
-      cacheOptions: {
-        cacheId: "123",
-        directoryIndex: "/",
-        revision: "123"
-      },
+      // cacheOptions: {
+      //   cacheId: "123",
+      //   directoryIndex: "/",
+      //   revision: "123",
+      // },
       // cachingExtensions: [],
       //? older preCache를 지울지 여부
       cleanupOutdatedCaches: true,
@@ -145,12 +154,20 @@ export default {
       //? runtimeCaching- 캐싱하기 위한 전략,  다른 origin에 요청들을 캐싱하는데 유용하다.
       //? https://developers.google.com/web/tools/workbox/modules/workbox-strategies
       runtimeCaching: [
+        {
+          // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
+          urlPattern: "https://picsum.photos/536/354/.*",
+          // Defaults to `NetworkFirst` if omitted
+          handler: "NetworkFirst",
+          // Defaults to `GET` if omitted
+          method: "GET",
+        },
         // TODO: Test Case 1
         {
           urlPattern: "/*",
-          handler: "networkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
-          method: "GET"
-        }
+          handler: "NetworkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
+          method: "GET",
+        },
         // TODO: Test Case 2
         // {
         //   urlPattern: "/*",
@@ -185,10 +202,10 @@ export default {
       ],
       // routingExtensions: [],
       //? /_nuxt/*에 캐시 first로 요청한다.
-      cacheAssets: true
+      cacheAssets: true,
 
       //? 에셋 URL 패턴을 적는거고 디폴트는: /_nuxt/
-      // assetsURLPattern: undefined,
+      assetsURLPattern: "/_nuxt/icons/",
       // pagesURLPattern: undefined,
 
       //! Service Worker
@@ -203,6 +220,6 @@ export default {
       //! Router
       // routerBase: undefined,
       // publicPath: undefined
-    }
-  }
+    },
+  },
 };

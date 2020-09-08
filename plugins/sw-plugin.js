@@ -1,3 +1,5 @@
+//import { PrecacheController } from "workbox-precaching";
+
 console.log(window);
 console.log(navigator);
 if ("serviceWorker" in navigator) {
@@ -23,9 +25,9 @@ if ("serviceWorker" in navigator) {
 if (process.client) {
   console.log("sw-plugin 입니다.");
   const cacheName = `my-minhyup-app-custom-runtime-v2`;
-  caches.keys().then(keyList => {
+  caches.keys().then((keyList) => {
     return Promise.all(
-      keyList.map(key => {
+      keyList.map((key) => {
         console.log(key);
         console.log(cacheName);
         if (key !== cacheName) {
