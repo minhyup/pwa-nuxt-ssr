@@ -3,7 +3,7 @@
     <div>
       <Logo />
       <h1 class="title">
-        NUXT로 PWA, SSR 테스트중
+        NUXT로 PWA, SSR 테스트중.
       </h1>
       <div class="links">
         <a
