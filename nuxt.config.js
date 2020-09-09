@@ -21,15 +21,15 @@ export default {
       {
         hid: "description",
         name: "description",
-        content: process.env.npm_package_description || "",
-      },
+        content: process.env.npm_package_description || ""
+      }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     script: [
       {
-        src: "https://ds.hanwhalife.io/pet.js",
-      },
-    ],
+        src: "https://ds.hanwhalife.io/pet.js"
+      }
+    ]
   },
   /*
    ** Global CSS
@@ -42,12 +42,12 @@ export default {
   plugins: [
     {
       src: "@/plugins/sw-plugin.js",
-      ssr: false,
+      ssr: false
     },
     {
       src: "@/plugins/user-element.js",
-      ssr: false,
-    },
+      ssr: false
+    }
   ],
   /*
    ** Auto import components
@@ -64,7 +64,7 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/pwa",
+    "@nuxtjs/pwa"
   ],
   /*
    ** Axios module configuration
@@ -81,7 +81,7 @@ export default {
       name: "My minhyup",
       short_name: "MinHyupNuxtPwa",
       start_url: "/?utm_source=homescreen",
-      display: "standalone",
+      display: "standalone"
       // prefer_related_applications: true,
       // related_applications: [
       //   {
@@ -113,7 +113,7 @@ export default {
         prefix: "my-minhyup-app",
         suffix: "v2",
         precache: "custom-precache",
-        runtime: "custom-runtime",
+        runtime: "custom-runtime"
       },
 
       //! Config
@@ -156,18 +156,35 @@ export default {
       runtimeCaching: [
         {
           // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-          urlPattern: "https://picsum.photos/536/354/.*",
+          urlPattern: "https://picsum.photos/*",
           // Defaults to `NetworkFirst` if omitted
           handler: "NetworkFirst",
           // Defaults to `GET` if omitted
           method: "GET",
+          strategyOptions: {
+            cacheName: "minhyup_v2",
+            cacheExpiration: {
+              maxAgeSeconds: 10
+            }
+          }
+        },
+        {
+          urlPattern: "https://reqres.in/api/*",
+          handler: "NetworkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
+          method: "GET",
+          strategyOptions: {
+            cacheName: "minhyup_v3",
+            cacheExpiration: {
+              maxAgeSeconds: 10
+            }
+          }
         },
         // TODO: Test Case 1
         {
           urlPattern: "/*",
           handler: "NetworkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
-          method: "GET",
-        },
+          method: "GET"
+        }
         // TODO: Test Case 2
         // {
         //   urlPattern: "/*",
@@ -203,9 +220,8 @@ export default {
       // routingExtensions: [],
       //? /_nuxt/*에 캐시 first로 요청한다.
       cacheAssets: true,
-
       //? 에셋 URL 패턴을 적는거고 디폴트는: /_nuxt/
-      assetsURLPattern: "/_nuxt/icons/",
+      assetsURLPattern: "/_nuxt/"
       // pagesURLPattern: undefined,
 
       //! Service Worker
@@ -220,6 +236,6 @@ export default {
       //! Router
       // routerBase: undefined,
       // publicPath: undefined
-    },
-  },
+    }
+  }
 };

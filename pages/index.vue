@@ -6,12 +6,14 @@
         <h1>칠드런입니다!</h1>
       </global-component>
       <!-- <TodoItem /> -->
-      <lpp-button size="large" @click="test">버튼 테스트</lpp-button>
+      <lpp-button size="large" @click="test">테스트 API 호출</lpp-button>
       <lpp-button size="medium">버튼 테스트</lpp-button>
       <lpp-button size="small">버튼 테스트</lpp-button>
       <hr />
       <lpp-button size="large" shape="round">버튼 테스트</lpp-button>
-      <lpp-button size="large" style="color: red; font-size:20px;">버튼 테스트</lpp-button>
+      <lpp-button size="large" style="color: red; font-size:20px;"
+        >버튼 테스트</lpp-button
+      >
       <h1 class="title">
         NUXT로 PWA, SSR 테스트중.
       </h1>
@@ -41,6 +43,8 @@
 
         <span> by min hyup!! </span>
         <span> by min hyup!! </span>
+        <img src="@/assets/test.PNG" />
+        <img src="/react1.jpg" />
       </div>
 
       <button class="add-button">Add to home screen</button>
@@ -52,21 +56,37 @@
 export default {
   head() {
     return {
-      title: `head11111 = ${this.title}`
+      title: `head = ${this.title}`
     };
   },
   methods: {
     linkPage() {
       this.$router.push(`/test3`);
     },
-    test(){
-      alert('누르셨습니까????');
+    async test() {
+      const response = await this.$axios.get(
+        `https://reqres.in/api/users?page=2`
+      );
+      console.log("success2");
+    },
+    sleep(n) {
+      return new Promise(resolve => {
+        return setTimeout(resolve, n);
+      });
     }
   },
-  asyncData() {
-    console.log("async Data");
+  async asyncData({ $axios, params }) {
+    console.log("async Data params::", params);
+
+    const { data } = await $axios.get(`https://reqres.in/api/products/3`);
+    console.log("success1");
+
+    console.log("async Data success!!", data);
+    // return { title: data.name };
+    console.log(data.data.name);
+
     return {
-      title: "Async Data1111"
+      title: data.data.name
     };
   },
   async mounted() {
