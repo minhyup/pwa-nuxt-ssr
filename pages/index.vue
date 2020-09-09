@@ -6,12 +6,25 @@
         <h1>칠드런입니다!</h1>
       </global-component>
       <!-- <TodoItem /> -->
-      <lpp-button size="large" @click="test">버튼 테스트</lpp-button>
-      <lpp-button size="medium">버튼 테스트</lpp-button>
-      <lpp-button size="small">버튼 테스트</lpp-button>
+      <lpp-button size="large" @click="test"> API 테스트</lpp-button>
+      <lpp-button size="large" @click="test2"> API2 테스트</lpp-button>
       <hr />
-      <lpp-button size="large" shape="round">버튼 테스트</lpp-button>
-      <lpp-button size="large" style="color: red; font-size:20px;">버튼 테스트</lpp-button>
+
+
+      <div style="width: 500px; background-color: red;">
+        <lpp-button size="large" shape="round" block>버튼 테스트</lpp-button>
+      </div>
+
+      <lpp-button type="filled">버튼</lpp-button>
+      <lpp-button>
+        <p class="subject">반려견 입양하기</p>
+      </lpp-button>
+      <button>
+        <p class="subject">반려견 입양하기</p>
+      </button>
+      <lpp-button type="filled" size="large" consist="textIcon" icon="arrowWhite" style="width:500px; height:500px;" disabled>버튼</lpp-button>
+      <Button><p class="subject">반려견 입양하기</p></Button>
+      <hr />
       <h1 class="title">
         NUXT로 PWA, SSR 테스트중.
       </h1>
@@ -59,18 +72,40 @@ export default {
     linkPage() {
       this.$router.push(`/test3`);
     },
-    test(){
-      alert('누르셨습니까????');
+    async test(){
+      const { data } = await this.$axios.get('/listData');
+      console.log(data);
+      //alert('누르셨습니까????');
+    },
+    async test2(){
+      const { data } = await this.$axios.get('/listData2');
+      console.log(data);
+      //alert('누르셨습니까????');
     }
   },
-  asyncData() {
-    console.log("async Data");
+  // asyncData () {
+  //   return new Promise((resolve) => {
+  //     setTimeout(function () {
+  //       resolve({ name: 'world' })
+  //     }, 5000)
+  //   })
+  // },
+  async asyncData({ app, $axios }) {
+    console.log("async Data::::");
+    app.myInjectedFunction2('async Data~~~~~~! log');
+
+    //const {data} = await $axios.get('/headData');
+    //const {data} = await $axios.get('/headData');
+    //console.log(data);
     return {
-      title: "Async Data1111"
+      //title: data.title
+      title: 'aaa'
     };
   },
   async mounted() {
     console.log("mounted!!");
+    this.$injectFunction('mount zzzzz');
+
     let deferredPrompt;
     const addBtn = document.querySelector(".add-button");
     addBtn.style.display = "none";

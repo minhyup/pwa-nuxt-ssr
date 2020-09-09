@@ -1,6 +1,9 @@
 import Vue from "vue";
 import GlobalComponent from "@/components/global-component";
+import Button from "@/components/general/Button";
+Vue.component(Button.name, Button);
 Vue.component(GlobalComponent.name, GlobalComponent);
+
 // Vue.component(
 //   "minhyup",
 //   props: {

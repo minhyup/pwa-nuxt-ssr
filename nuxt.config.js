@@ -27,7 +27,8 @@ export default {
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
     script: [
       {
-        src: "https://ds.hanwhalife.io/pet.js",
+        // src: "https://ds.hanwhalife.io/pet.js",
+        src: "/pet2.js",
       },
     ],
   },
@@ -48,6 +49,9 @@ export default {
       src: "@/plugins/user-element.js",
       ssr: false,
     },
+    {
+      src: "@/plugins/plugin-test.js",
+    },
   ],
   /*
    ** Auto import components
@@ -65,12 +69,30 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     "@nuxtjs/pwa",
+    "@nuxtjs/proxy",
   ],
+
+  /*
+   ** Proxy
+   ** See https://nuxtjs.org/faq/http-proxy/
+   */
+  proxy: {
+    "/api": {
+      target: "http://localhost:5000",
+      pathRewrite: {
+        "^/api": "/",
+      },
+    },
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: "http://localhost:3000",
+    browserBaseURL: "/api",
+    proxy: true,
+  },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
