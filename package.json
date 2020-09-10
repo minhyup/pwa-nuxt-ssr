@@ -12,7 +12,8 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "pwa": "nuxt generate && serve -l 3000 ./dist"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",

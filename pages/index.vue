@@ -81,6 +81,11 @@ export default {
       const { data } = await this.$axios.get('/listData2');
       console.log(data);
       //alert('누르셨습니까????');
+    },
+    async test3(){
+      const { data } = await this.$axios.get('/listData2');
+      console.log(data);
+      //alert('누르셨습니까????');
     }
   },
   // asyncData () {

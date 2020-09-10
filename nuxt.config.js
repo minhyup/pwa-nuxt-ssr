@@ -3,12 +3,12 @@ export default {
    ** Nuxt rendering mode
    ** See https://nuxtjs.org/api/configuration-mode
    */
-  mode: "universal", // universal, spa
+  mode: "spa", // universal, spa
   /*
    ** Nuxt target
    ** See https://nuxtjs.org/api/configuration-target
    */
-  target: "server", // server, static
+  target: "static", // server, static
   /*
    ** Headers of the page
    ** See https://nuxtjs.org/api/configuration-head
@@ -118,9 +118,11 @@ export default {
       // https://github.com/nuxt-community/pwa-module/blob/dev/lib/workbox/defaults.js
       //! General
       //? 워크박스의 버전
-      workboxVersion: require("workbox-cdn/package.json").version,
+      //orkboxVersion: "5.1.3",
       //? 워크박스 CDN URL이고 디폴트 값은 JSDelivr이다.
-      // workboxURL: undefined,
+      //workboxURL: undefined,
+      workboxURL: "/workbox/workbox-sw.js",
+
       //? 서비스워커 스크립트에 import 되는 추가 스크립트
       importScripts: ["custom-sw.js"],
 
@@ -140,7 +142,10 @@ export default {
 
       //! Config
       //? 워크박스 모듈을 사용하기전, 워크박스에 통과되기 위한 옵션
-      // config: {},
+      // https://cdn.jsdelivr.net/npm/workbox-cdn@5.1.3/workbox/workbox-core.prod.js
+      config: {
+        modulePathPrefix: "/workbox/",
+      },
       //? activate 되자마자 존재하는 클라이언트를 컨트롤 시작 여부
       // clientsClaim: true,
       //? 서비스워커 waiting 단계에서 스킵 여부
@@ -159,6 +164,7 @@ export default {
       //   revision: "123",
       // },
       // cachingExtensions: [],
+
       //? older preCache를 지울지 여부
       cleanupOutdatedCaches: true,
 
@@ -178,7 +184,7 @@ export default {
       runtimeCaching: [
         {
           // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-          urlPattern: "https://picsum.photos/536/354/.*",
+          urlPattern: "https://picsum.photos/*",
           // Defaults to `NetworkFirst` if omitted
           handler: "NetworkFirst",
           // Defaults to `GET` if omitted
@@ -222,12 +228,12 @@ export default {
         //   }
         // }
       ],
-      // routingExtensions: [],
+      routingExtensions: ["@/plugins/workbox-routing-extension.js"],
       //? /_nuxt/*에 캐시 first로 요청한다.
       cacheAssets: true,
 
       //? 에셋 URL 패턴을 적는거고 디폴트는: /_nuxt/
-      assetsURLPattern: "/_nuxt/icons/",
+      assetsURLPattern: "/_nuxt/",
       // pagesURLPattern: undefined,
 
       //! Service Worker
