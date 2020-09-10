@@ -10,7 +10,6 @@
       <lpp-button size="large" @click="test2"> API2 테스트</lpp-button>
       <hr />
 
-
       <div style="width: 500px; background-color: red;">
         <lpp-button size="large" shape="round" block>버튼 테스트</lpp-button>
       </div>
@@ -22,7 +21,15 @@
       <button>
         <p class="subject">반려견 입양하기</p>
       </button>
-      <lpp-button type="filled" size="large" consist="textIcon" icon="arrowWhite" style="width:500px; height:500px;" disabled>버튼</lpp-button>
+      <lpp-button
+        type="filled"
+        size="large"
+        consist="textIcon"
+        icon="arrowWhite"
+        style="width:500px; height:500px;"
+        disabled
+        >버튼</lpp-button
+      >
       <Button><p class="subject">반려견 입양하기</p></Button>
       <hr />
       <h1 class="title">
@@ -54,6 +61,8 @@
 
         <span> by min hyup!! </span>
         <span> by min hyup!! </span>
+        <img src="@/assets/test.PNG" />
+        <img src="/react1.jpg" />
       </div>
 
       <button class="add-button">Add to home screen</button>
@@ -65,20 +74,20 @@
 export default {
   head() {
     return {
-      title: `head11111 = ${this.title}`
+      title: `head = ${this.title}`
     };
   },
   methods: {
     linkPage() {
       this.$router.push(`/test3`);
     },
-    async test(){
-      const { data } = await this.$axios.get('/listData');
+    async test() {
+      const { data } = await this.$axios.get("/listData");
       console.log(data);
       //alert('누르셨습니까????');
     },
-    async test2(){
-      const { data } = await this.$axios.get('/listData2');
+    async test2() {
+      const { data } = await this.$axios.get("/listData2");
       console.log(data);
       //alert('누르셨습니까????');
     },
@@ -97,19 +106,19 @@ export default {
   // },
   async asyncData({ app, $axios }) {
     console.log("async Data::::");
-    app.myInjectedFunction2('async Data~~~~~~! log');
+    app.myInjectedFunction2("async Data~~~~~~! log");
 
     //const {data} = await $axios.get('/headData');
     //const {data} = await $axios.get('/headData');
     //console.log(data);
     return {
       //title: data.title
-      title: 'aaa'
+      title: "aaa"
     };
   },
   async mounted() {
     console.log("mounted!!");
-    this.$injectFunction('mount zzzzz');
+    this.$injectFunction("mount zzzzz");
 
     let deferredPrompt;
     const addBtn = document.querySelector(".add-button");

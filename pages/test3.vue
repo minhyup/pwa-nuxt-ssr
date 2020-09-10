@@ -4,6 +4,7 @@
     <img
       src="https://cdn.pixabay.com/photo/2020/08/25/11/27/flowers-5516493_960_720.jpg"
     />
+
     <nuxt-link to="/">Home page</nuxt-link>
   </div>
 </template>

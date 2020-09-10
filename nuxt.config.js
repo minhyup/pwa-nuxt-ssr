@@ -189,6 +189,23 @@ export default {
           handler: "NetworkFirst",
           // Defaults to `GET` if omitted
           method: "GET",
+          strategyOptions: {
+            cacheName: "minhyup_v2",
+            cacheExpiration: {
+              maxAgeSeconds: 10,
+            },
+          },
+        },
+        {
+          urlPattern: "https://reqres.in/api/*",
+          handler: "NetworkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
+          method: "GET",
+          strategyOptions: {
+            cacheName: "minhyup_v3",
+            cacheExpiration: {
+              maxAgeSeconds: 10,
+            },
+          },
         },
         // TODO: Test Case 1
         {
@@ -231,7 +248,6 @@ export default {
       routingExtensions: ["@/plugins/workbox-routing-extension.js"],
       //? /_nuxt/*에 캐시 first로 요청한다.
       cacheAssets: true,
-
       //? 에셋 URL 패턴을 적는거고 디폴트는: /_nuxt/
       assetsURLPattern: "/_nuxt/",
       // pagesURLPattern: undefined,
