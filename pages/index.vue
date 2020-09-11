@@ -8,6 +8,8 @@
       <!-- <TodoItem /> -->
       <lpp-button size="large" @click="test"> API 테스트</lpp-button>
       <lpp-button size="large" @click="test2"> API2 테스트</lpp-button>
+      <lpp-button size="large" @click="test3"> API3(POST) 테스트</lpp-button>
+      <lpp-button size="large" @click="test4"> API4(POST) 테스트</lpp-button>
       <hr />
 
       <div style="width: 500px; background-color: red;">
@@ -92,7 +94,12 @@ export default {
       //alert('누르셨습니까????');
     },
     async test3(){
-      const { data } = await this.$axios.get('/listData2');
+      const { data } = await this.$axios.post('http://localhost:5000/listData2');
+      console.log(data);
+      //alert('누르셨습니까????');
+    },
+    async test4(){
+      const { data } = await this.$axios.post('http://localhost:5000/listData');
       console.log(data);
       //alert('누르셨습니까????');
     }

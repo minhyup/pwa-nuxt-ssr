@@ -4,6 +4,7 @@ console.log(this.workbox.strategies);
 console.log(this.workbox.backgroundSync.BackgroundSyncPlugin);
 const { BackgroundSyncPlugin } = this.workbox.backgroundSync;
 const { NetworkFirst } = this.workbox.strategies;
+const { NetworkOnly } = this.workbox.strategies;
 console.log(BackgroundSyncPlugin);
 
 // What is Workbox Background Sync?
@@ -21,9 +22,34 @@ const bgSyncPlugin = new BackgroundSyncPlugin("myQueueName", {
 });
 
 workbox.routing.registerRoute(
-  new RegExp("https://cdn.pixabay.com.*/"),
-  new NetworkFirst({
+  ({ url, request, event }) => {
+    console.log("match callback?", url, request, event);
+    return true;
+  },
+  new NetworkOnly({
     plugins: [bgSyncPlugin],
   }),
-  "GET"
+  // new NetworkOnly({
+  //   plugins: [bgSyncPlugin],
+  // }),
+  // ({ url, request, event, params }) => {
+  //   console.log("handle callback?", url, request, event, params);
+  //   return new NetworkOnly({
+  //     plugins: [bgSyncPlugin],
+  //   });
+  // },
+  // new NetworkFirst({
+  //   plugins: [bgSyncPlugin],
+  // }),
+  "POST"
 );
+
+// workbox.routing.registerRoute(
+//   ({ url, request, event }) => {
+//     console.log("match callback?", url, request, event);
+//   },
+//   (a, b, c) => {
+//     console.log("handle callback?", a, b, c);
+//   },
+//   "POST"
+// );
