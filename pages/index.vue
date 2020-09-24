@@ -2,6 +2,7 @@
   <div class="container">
     <div>
       <Logo />
+      <img src="/icon2.png" />
       <global-component>
         <h1>칠드런입니다!</h1>
       </global-component>

@@ -1,3 +1,67 @@
+importScripts('/workbox/workbox-sw.js', 'custom-sw.js')
+
+// --------------------------------------------------
+// Configure
+// --------------------------------------------------
+
+// Set workbox config
+workbox.setConfig({
+  "modulePathPrefix": "/workbox/",
+  "debug": false
+})
+
+// Set workbox cache names
+workbox.core.setCacheNameDetails({
+  "prefix": "my-minhyup-app",
+  "suffix": "v2",
+  "precache": "custom-precache",
+  "runtime": "custom-runtime"
+})
+
+// Start controlling any existing clients as soon as it activates
+workbox.core.clientsClaim()
+
+// Skip over the SW waiting lifecycle stage
+workbox.core.skipWaiting()
+
+workbox.precaching.cleanupOutdatedCaches()
+
+// -- Start of workboxExtensions --
+console.log("workbox-precache-request!!", self);
+const { precacheAndRoute } = this.workbox.precaching;
+
+console.log("self precacheAndRoute:::", self.__precacheManifest);
+console.log("self self.__WB_MANIFEST:::", self.__WB_MANIFEST);
+//precacheAndRoute(self.__WB_MANIFEST);
+//precacheAndRoute([{ url: "icon2.png", revision: "383676" }]);
+// -- End of workboxExtensions --
+
+// --------------------------------------------------
+// Precaches
+// --------------------------------------------------
+
+// Precache assets
+
+// -- Start of cachingExtensions --
+console.log("workbox-work-request!!", self);
+const { precacheAndRoute } = this.workbox.precaching;
+
+console.log("self work:::", self.__precacheManifest);
+console.log("self self.__WB_MANIFEST:::", self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST);
+//precacheAndRoute([{ url: "icon2.png", revision: "383676" }]);
+// -- End of cachingExtensions --
+
+// --------------------------------------------------
+// Runtime Caching
+// --------------------------------------------------
+
+// Register route handlers for runtimeCaching
+workbox.routing.registerRoute(new RegExp('/*'), new workbox.strategies.NetworkFirst ({}), 'GET')
+workbox.routing.registerRoute(new RegExp('/_nuxt/'), new workbox.strategies.CacheFirst ({}), 'GET')
+workbox.routing.registerRoute(new RegExp('/'), new workbox.strategies.NetworkFirst ({}), 'GET')
+
+// -- Start of routingExtensions --
 console.log("workbox-routing-request!!");
 console.log(this.workbox);
 console.log(this.workbox.strategies);
@@ -6,12 +70,6 @@ const { BackgroundSyncPlugin } = this.workbox.backgroundSync;
 const { NetworkFirst } = this.workbox.strategies;
 const { NetworkOnly } = this.workbox.strategies;
 console.log(BackgroundSyncPlugin);
-
-// const { precacheAndRoute } = this.workbox.precaching;
-
-// console.log("self 여기는 라우팅:::", self.__precacheManifest);
-// console.log("self self.__WB_MANIFEST:::", self.__WB_MANIFEST);
-// precacheAndRoute(self.__WB_MANIFEST);
 
 // What is Workbox Background Sync?
 // When you send data to a web server, sometimes the requests will fail. It may be because the user has lost connectivity, or it may be because the server is down; in either case you often want to try sending the requests again later.
@@ -59,3 +117,4 @@ workbox.routing.registerRoute(
 //   },
 //   "POST"
 // );
+// -- End of routingExtensions --

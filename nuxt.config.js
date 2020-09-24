@@ -1,3 +1,11 @@
+const path = require("path");
+//import { InjectManifest, GenerateSW } from "workbox-webpack-plugin";
+
+import WorkboxPlugin from "workbox-webpack-plugin";
+import ManifestPlugin from "webpack-manifest-plugin";
+
+console.log("cwd!!", process.cwd());
+
 export default {
   /*
    ** Nuxt rendering mode
@@ -76,61 +84,72 @@ export default {
    ** Proxy
    ** See https://nuxtjs.org/faq/http-proxy/
    */
-  proxy: {
-    "/api": {
-      target: "http://localhost:5000",
-      pathRewrite: {
-        "^/api": "/",
-      },
-    },
-  },
+  // proxy: {
+  //   "/api": {
+  //     target: "http://localhost:5000",
+  //     pathRewrite: {
+  //       "^/api": "/",
+  //     },
+  //   },
+  // },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: "http://localhost:3000",
-    browserBaseURL: "/api",
-    proxy: true,
+    baseURL: "http://localhost:3000/api",
+    //browserBaseURL: "/api",
+    //proxy: true,
   },
+  // axios: {
+  //   baseURL: "http://localhost:3000",
+  //   browserBaseURL: "/api",
+  //   proxy: true,
+  // },
   /*
    ** Build configuration
    ** See https://nuxtjs.org/api/configuration-build/
    */
-  build: {},
+  build: {
+    //plugins: [new GenerateSW({ swSrc: "./static/sw.js", swDest: "sw.js" })],
+    plugins: [
+      new ManifestPlugin({
+        fileName: "asset-manifest.json",
+      }),
+      //new WorkboxPlugin.GenerateSW()
+      // new WorkboxPlugin.InjectManifest({
+      //   //swSrc: "./static/sw.js",
+      //   swSrc: path.join(process.cwd(), "/static/sw.js"),
+      //   swDest: path.join(process.cwd(), "/dist/sw.js"),
+      //   exclude: [],
+      //   // exclude: [
+      //   //   /\.map$/,
+      //   //   /manifest$/,
+      //   //   /\.htaccess$/,
+      //   //   /service-worker\.js$/,
+      //   //   /sw\.js$/,
+      //   // ],
+      // }),
+    ],
+    // plugins: [
+    //   // Other plugins...
+    //   new GenerateSW(),
+    // ],
+  },
   pwa: {
     manifest: {
       name: "My minhyup",
       short_name: "MinHyupNuxtPwa",
       start_url: "/?utm_source=homescreen",
       display: "standalone",
-      // prefer_related_applications: true,
-      // related_applications: [
-      //   {
-      //     platform: "play",
-      //     id: "com.google.samples.apps.iosched"
-      //   }
-      // ]
-      // background_color: "#000"
     },
     workbox: {
-      // https://pwa.nuxtjs.org/workbox
-      // https://github.com/nuxt-community/pwa-module/blob/dev/lib/workbox/defaults.js
-      //! General
-      //? 워크박스의 버전
-      //orkboxVersion: "5.1.3",
-      //? 워크박스 CDN URL이고 디폴트 값은 JSDelivr이다.
-      //workboxURL: undefined,
       workboxURL: "/workbox/workbox-sw.js",
-
       //? 서비스워커 스크립트에 import 되는 추가 스크립트
-      importScripts: ["custom-sw.js"],
-
+      //importScripts: ["custom-sw.js"],
+      importScripts: ["sw-test.js"],
       //? 페이지가 로드되면 자동 등록 여부
       autoRegister: true,
-      // dev: undefined,
-      //? 워크박스 모듈 활성화 여부. 워크박스는 기본적으로 프로덕션 모드에서 활성화 되어 있다. build -> start 권장
-      // enabled: (boolean)
       //? cachenames를 설정한다. (https://developers.google.com/web/tools/workbox/guides/configure-workbox#configure_cache_names)
       cacheNames: {
         //? prefix-runtime-suffix 순서
@@ -146,124 +165,39 @@ export default {
       config: {
         modulePathPrefix: "/workbox/",
       },
-      //? activate 되자마자 존재하는 클라이언트를 컨트롤 시작 여부
-      // clientsClaim: true,
       //? 서비스워커 waiting 단계에서 스킵 여부
       skipWaiting: true,
-      //? 워크박스를 통해 오프라인 GA 활성화
-      // offlineAnalytics: false,
-      //?
-      // workboxExtensions: [],
+      ///workboxExtensions: ["@/plugins/workbox-workbox-extension.js"],
+      //workboxExtensions: ["@/plugins/sw-precache-register.js"],
 
       //! Precache - 서비스워커가 인스톨되고 있을 때 캐시스토리지에 파일 세트를 저장할 수 있는 기능
-      //? 서비스 워커가 등록되고 있을 때, 캐시할 파일세트
-      preCaching: ["icon.png", "dog.jpg"],
-      // cacheOptions: {
-      //   cacheId: "123",
-      //   directoryIndex: "/",
-      //   revision: "123",
-      // },
-      // cachingExtensions: [],
-
+      //preCaching: ["icon.png", "dog.jpg"],
+      //preCaching: ["_nuxt/asset-manifest.json"],
+      cachingExtensions: ["@/plugins/workbox-precache-extension.js"],
       //? older preCache를 지울지 여부
-      cleanupOutdatedCaches: true,
-
-      //! Offline
-      //? 모든 라우트를 캐시할지 여부
-      // offline: true,
-      //? 라우트 캐싱을 위한 전략
-      // offlineStrategy: 'NetworkFirst',
-      //? 모든 오프라인 리퀘스트 라우팅을 활성화한다.(string 타입)
-      // offlinePage: null,
-      //? 프리캐시할 에셋들의 리스트
-      // offlineAssets: [],
+      //cleanupOutdatedCaches: true,
 
       //! Runtime Caching
       //? runtimeCaching- 캐싱하기 위한 전략,  다른 origin에 요청들을 캐싱하는데 유용하다.
       //? https://developers.google.com/web/tools/workbox/modules/workbox-strategies
       runtimeCaching: [
-        {
-          // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-          urlPattern: "https://picsum.photos/*",
-          // Defaults to `NetworkFirst` if omitted
-          handler: "NetworkFirst",
-          // Defaults to `GET` if omitted
-          method: "GET",
-          strategyOptions: {
-            cacheName: "minhyup_v2",
-            cacheExpiration: {
-              maxAgeSeconds: 10,
-            },
-          },
-        },
-        {
-          urlPattern: "https://reqres.in/api/*",
-          handler: "NetworkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
-          method: "GET",
-          strategyOptions: {
-            cacheName: "minhyup_v3",
-            cacheExpiration: {
-              maxAgeSeconds: 10,
-            },
-          },
-        },
-        // TODO: Test Case 1
+        // {
+        //   urlPattern: "/_nuxt/*",
+        //   handler: "CacheFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
+        //   method: "GET",
+        // },
         {
           urlPattern: "/*",
           handler: "NetworkFirst", // 네트워크 요청이 성공이면 캐시에 담아두고 네트워크 요청이 실패하면 캐시된 응답값을 사용한다.
           method: "GET",
         },
-        // TODO: Test Case 2
-        // {
-        //   urlPattern: "/*",
-        //   strategyOptions: {
-        //     cacheName: "minhyup_v2",
-        //     cacheExpiration: {
-        //       maxEntries: 10,
-        //       maxAgeSeconds: 300
-        //     }
-        //   }
-        // }
-        // TODO:Adding custom runtimeCaching itmes(For CDN)
-        // {
-        //   // Should be a regex string. Compiles into new RegExp('https://my-cdn.com/.*')
-        //   urlPattern: 'https://my-cdn.com/.*',
-        //   // Defaults to `NetworkFirst` if omitted
-        //   // handler: 'NetworkFirst',
-        //   // Defaults to `GET` if omitted
-        //   // method: 'GET'
-        // }
-        // TODO: Adding custom cache
-        // {
-        //   urlPattern: "https://my-cdn.com/posts/.*",
-        //   strategyOptions: {
-        //     cacheName: "our-cache",
-        //     cacheExpiration: {
-        //       maxEntries: 10,
-        //       maxAgeSeconds: 300
-        //     }
-        //   }
-        // }
       ],
-      routingExtensions: ["@/plugins/workbox-routing-extension.js"],
-      //? /_nuxt/*에 캐시 first로 요청한다.
+      // routingExtensions: ["@/plugins/workbox-routing-extension.js"],
+      //offlineAssets: ["_nuxt/*"],
+      // //? /_nuxt/*에 캐시 first로 요청한다.
       cacheAssets: true,
-      //? 에셋 URL 패턴을 적는거고 디폴트는: /_nuxt/
-      assetsURLPattern: "/_nuxt/",
-      // pagesURLPattern: undefined,
-
-      //! Service Worker
-      //? 생성된 sw.js 를 커스터마이징하기 위해 사용할 수 있다.
-      // swTemplate: undefined,
-      //? 만약 다른 서비스 워커를 사용하길 원하면 사용할 수 있다.(string)
-      // swUrl: undefined,
-      // swScope: undefined,
-      //? 만약 service worker의 이름을 바꾸길 원한다면 swURL과 함께 이 옵션을 사용해야한다.(string)
-      // swDest: undefined,
-
-      //! Router
-      // routerBase: undefined,
-      // publicPath: undefined
+      // //? 에셋 URL 패턴을 적는거고 디폴트는: /_nuxt/
+      // assetsURLPattern: "/_nuxt/",
     },
   },
 };
